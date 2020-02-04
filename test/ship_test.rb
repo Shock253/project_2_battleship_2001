@@ -14,7 +14,6 @@ class ShipTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     ghost_ship = Ship.new("The Flying Dutchman", -2)
 
-
     assert_equal "Cruiser", cruiser.name
     assert_equal 3, cruiser.length
     assert_equal 3, cruiser.health
@@ -42,23 +41,10 @@ class ShipTest < Minitest::Test
     cruiser.hit
     assert_equal 0, cruiser.health
     assert_equal true, cruiser.sunk?
+
+    titanic = Ship.new("Titanic", 0)
+
+    titanic.hit
+    assert_equal 0, titanic.health
   end
 end
-
-# pry(main)> cruiser.hit
-#
-# pry(main)> cruiser.health
-# #=> 2
-#
-# pry(main)> cruiser.hit
-#
-# pry(main)> cruiser.health
-# #=> 1
-#
-# pry(main)> cruiser.sunk?
-# #=> false
-#
-# pry(main)> cruiser.hit
-#
-# pry(main)> cruiser.sunk?
-# #=> true
