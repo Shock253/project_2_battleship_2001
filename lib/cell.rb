@@ -26,11 +26,15 @@ class Cell
     end
   end
 
-  def render
+  def render(show_ships = false)
     if @fired_upon
       "M"
     else
-      "."
+      if show_ships && @ship != nil
+        "S"
+      else
+        "."
+      end
     end
   end
 
