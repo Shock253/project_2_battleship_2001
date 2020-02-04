@@ -12,10 +12,14 @@ class ShipTest < Minitest::Test
 
   def test_it_has_attributes
     cruiser = Ship.new("Cruiser", 3)
+    ghost_ship = Ship.new("The Flying Dutchman", -2)
+
 
     assert_equal "Cruiser", cruiser.name
     assert_equal 3, cruiser.length
     assert_equal 3, cruiser.health
+    assert_equal 0, ghost_ship.length
+    assert_equal 0, ghost_ship.health
   end
 
   def test_for_sunk_method
@@ -39,7 +43,6 @@ class ShipTest < Minitest::Test
     assert_equal 0, cruiser.health
     assert_equal true, cruiser.sunk?
   end
-
 end
 
 # pry(main)> cruiser.hit

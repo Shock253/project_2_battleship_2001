@@ -3,6 +3,11 @@ class Ship
 
   def initialize(name_parameter, length_parameter)
     @name = name_parameter
+
+    if length_parameter < 0
+      length_parameter = 0
+    end
+
     @length = length_parameter
     @health = length_parameter
   end
