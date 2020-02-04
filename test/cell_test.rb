@@ -70,30 +70,15 @@ class CellTest < Minitest::Test
 
     assert_equal ".", cell_2.render
     assert_equal "S", cell_2.render(true)
+
+    cell_2.fire_upon
+
+    assert_equal "H", cell_2.render
+    assert_equal "H", cell_2.render(true)
   end
 
 end
 
-# pry(main)> cell_1.fire_upon
-#
-# pry(main)> cell_1.render
-# # => "M"
-#
-# pry(main)> cell_2 = Cell.new("C3")
-# # => #<Cell:0x00007f84f0b29d10...>
-#
-# pry(main)> cruiser = Ship.new("Cruiser", 3)
-# # => #<Ship:0x00007f84f0ad4fb8...>
-#
-# pry(main)> cell_2.place_ship(cruiser)
-#
-# pry(main)> cell_2.render
-# # => "."
-#
-# # Indicate that we want to show a ship with the optional argument
-# pry(main)> cell_2.render(true)
-# # => "S"
-#
 # pry(main)> cell_2.fire_upon
 #
 # pry(main)> cell_2.render

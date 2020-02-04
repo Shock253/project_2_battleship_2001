@@ -28,7 +28,11 @@ class Cell
 
   def render(show_ships = false)
     if @fired_upon
-      "M"
+      if @ship != nil
+        "H"
+      else
+        "M"
+      end
     else
       if show_ships && @ship != nil
         "S"
