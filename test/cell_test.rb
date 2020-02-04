@@ -9,7 +9,6 @@ class CellTest < Minitest::Test
 
     assert_instance_of Cell, cell
   end
-<<<<<<< HEAD
 
   def test_has_attributes
     cell = Cell.new("B4")
@@ -17,18 +16,15 @@ class CellTest < Minitest::Test
     assert_equal "B4", cell.coordinate
     assert_nil cell.ship
   end
-=======
->>>>>>> dbb159a55300f632072aaa241a32bff9f2f358aa
+
+  def test_cell_starts_empty
+    cell = Cell.new("B4")
+
+    assert_equal true, cell.empty?
+  end
+
 end
 
-# pry(main)> cell = Cell.new("B4")
-# # => #<Cell:0x00007f84f0ad4720...>
-#
-# pry(main)> cell.coordinate
-# # => "B4"
-#
-# pry(main)> cell.ship
-# # => nil
 #
 # pry(main)> cell.empty?
 # # => true
