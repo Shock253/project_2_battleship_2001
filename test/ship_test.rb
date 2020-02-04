@@ -10,21 +10,19 @@ class ShipTest < Minitest::Test
     assert_instance_of Ship, cruiser
   end
 
-  def test_it_has_name
+  def test_it_has_attributes
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal "Cruiser", cruiser.name
+    assert_equal 3, cruiser.length
   end
+
 
 
 
 end
 
 
-
-# pry(main)> cruiser.name
-# #=> "Cruiser"
-#
 # pry(main)> cruiser.length
 # #=> 3
 #
