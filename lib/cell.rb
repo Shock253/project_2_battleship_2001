@@ -29,7 +29,11 @@ class Cell
   def render(show_ships = false)
     if @fired_upon
       if @ship != nil
-        "H"
+        if @ship.sunk?
+          "X"
+        else
+          "H"
+        end
       else
         "M"
       end

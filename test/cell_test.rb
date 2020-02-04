@@ -75,24 +75,15 @@ class CellTest < Minitest::Test
 
     assert_equal "H", cell_2.render
     assert_equal "H", cell_2.render(true)
+
+    assert_equal false, cruiser.sunk?
+
+    cruiser.hit
+    cruiser.hit
+
+    assert_equal true, cruiser.sunk?
+
+    assert_equal "X", cell_2.render
   end
 
 end
-
-# pry(main)> cell_2.fire_upon
-#
-# pry(main)> cell_2.render
-# # => "H"
-#
-# pry(main)> cruiser.sunk?
-# # => false
-#
-# pry(main)> cruiser.hit
-#
-# pry(main)> cruiser.hit
-#
-# pry(main)> cruiser.sunk?
-# # => true
-#
-# pry(main)> cell_2.render
-# # => "X"
