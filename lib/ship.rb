@@ -7,4 +7,8 @@ class Ship
     @health = length_parameter
   end
 
+  def sunk?
+    @health <= 0
+  end
+  
 end
