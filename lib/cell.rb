@@ -31,13 +31,13 @@ class Cell
       if @ship != nil
         if @ship.sunk?
           "X"
-        else
+        else # not sunk yet
           "H"
         end
-      else
+      else # is not a ship
         "M"
       end
-    else
+    else # not fired_upon
       if show_ships && @ship != nil
         "S"
       else
