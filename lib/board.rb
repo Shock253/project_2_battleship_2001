@@ -21,18 +21,36 @@ class Board
 
   def valid_placement?(ship, ship_coordinates)
     if ship.length == ship_coordinates.size
-      is_consecutive_letters = false
+      is_consecutive_letters = true
       is_consecutive_numbers = true
 
       ship_coordinates.each_with_index do |coordinate, position_in_array|
+        if position_in_array != ship_coordinates.length - 1
 
-        if !(position_in_array == ship_coordinates.length - 1 || coordinate[1].to_i + 1 == ship_coordinates[position_in_array + 1][1].to_i)
-          is_consecutive_numbers = false
+          current_number = coordinate[1].to_i
+          next_number = ship_coordinates[position_in_array + 1][1].to_i
+
+          if current_number + 1 != next_number
+            is_consecutive_numbers = false
+          end
         end
-
       end
 
-      is_consecutive_numbers
+
+      ship_coordinates.each_with_index do |coordinate, position_in_array|
+        if position_in_array != ship_coordinates.length - 1
+
+          current_letter_ordinal_value = coordinate[0].ord
+          next_letter_ordinal_value = ship_coordinates[position_in_array + 1][0].ord
+
+          if current_letter_ordinal_value + 1 != next_letter_ordinal_value
+            is_consecutive_letters = false
+          end
+        end
+      end
+
+      # require "pry"; binding.pry
+      is_consecutive_numbers || is_consecutive_letters
 
     else
       false
