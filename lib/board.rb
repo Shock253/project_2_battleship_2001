@@ -49,13 +49,20 @@ class Board
         end
       end
 
-      # require "pry"; binding.pry
-      # (is_consecutive_numbers && !is_consecutive_letters) || (!is_consecutive_numbers && is_consecutive_letters)
-
       is_consecutive_numbers ^ is_consecutive_letters
+      # (is_consecutive_numbers && !is_consecutive_letters) || (!is_consecutive_numbers && is_consecutive_letters)
 
     else
       false
+    end
+  end
+
+  def place(ship, ship_coordinates)
+    if valid_placement?(ship, ship_coordinates)
+      ship_coordinates.each do |coordinate|
+        require "pry"; binding.pry
+        @cells[coordinate].place_ship(ship)
+      end
     end
   end
 end
