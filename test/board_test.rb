@@ -41,5 +41,28 @@ class ClassTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
-  
+  def test_valid_placement
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
+    assert_equal false, @board.valid_placement?(@submarine, ["C1", "B1"])
+
+  end
+
 end
+#
+# pry(main)> board.valid_placement?(cruiser, ["A1", "A2", "A4"])
+# # => false
+#
+# pry(main)> board.valid_placement?(submarine, ["A1", "C1"])
+# # => false
+#
+# pry(main)> board.valid_placement?(cruiser, ["A3", "A2", "A1"])
+# # => false
+#
+# pry(main)> board.valid_placement?(submarine, ["C1", "B1"])
+# # => false
