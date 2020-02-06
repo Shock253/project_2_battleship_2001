@@ -50,7 +50,9 @@ class Board
       end
 
       # require "pry"; binding.pry
-      is_consecutive_numbers || is_consecutive_letters
+      # (is_consecutive_numbers && !is_consecutive_letters) || (!is_consecutive_numbers && is_consecutive_letters)
+
+      is_consecutive_numbers ^ is_consecutive_letters
 
     else
       false
