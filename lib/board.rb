@@ -22,12 +22,17 @@ class Board
   def valid_placement?(ship, ship_coordinates)
     if ship.length == ship_coordinates.size
       is_consecutive_letters = false
-      is_consecutive_numbers = false
+      is_consecutive_numbers = true
 
-      # first_number = ship_coordinates[0][1].to_i
-      ship_coordinates.each do |coordinate|
-        
+      ship_coordinates.each_with_index do |coordinate, position_in_array|
+
+        if !(position_in_array == ship_coordinates.length - 1 || coordinate[1].to_i + 1 == ship_coordinates[position_in_array + 1][1].to_i)
+          is_consecutive_numbers = false
+        end
+
       end
+
+      is_consecutive_numbers
 
     else
       false
