@@ -20,7 +20,9 @@ class Board
   end
 
   def valid_placement?(ship, ship_coordinates)
-    if ship.length == ship_coordinates.size
+    if ship_coordinates.any? { |coordinate| @cells[coordinate].ship != nil }
+      false
+    elsif ship.length == ship_coordinates.size
       is_consecutive_letters = true
       is_consecutive_numbers = true
 
@@ -60,7 +62,6 @@ class Board
   def place(ship, ship_coordinates)
     if valid_placement?(ship, ship_coordinates)
       ship_coordinates.each do |coordinate|
-        require "pry"; binding.pry
         @cells[coordinate].place_ship(ship)
       end
     end
