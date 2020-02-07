@@ -95,4 +95,29 @@ class ClassTest < Minitest::Test
 
     assert_equal rendered_board2, @board.render(true)
   end
+
+  def test_can_hit_board
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    @board.place(@submarine, ["C1", "D1"])
+
+    @board.fire_on_coordinate("A1")
+    @board.fire_on_coordinate("B4")
+    @board.fire_on_coordinate("C1")
+    @board.fire_on_coordinate("D1")
+
+    expected_board1 = "  1 2 3 4 \n" +
+                      "A H . . . \n" +
+                      "B . . . M \n" +
+                      "C X . . . \n" +
+                      "D X . . . \n"
+
+    expected_board2 = "  1 2 3 4 \n" +
+                      "A H S S . \n" +
+                      "B . . . M \n" +
+                      "C X . . . \n" +
+                      "D X . . . \n"
+
+    assert_equal expected_board1, @board.render
+    assert_equal expected_board2, @board.render(true)
+  end
 end

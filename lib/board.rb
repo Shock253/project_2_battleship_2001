@@ -86,4 +86,9 @@ class Board
     #                   "D . . . . \n"
 
   end
+
+  def fire_on_coordinate(target)
+    @cells[target].fire_upon
+  end
+  
 end
