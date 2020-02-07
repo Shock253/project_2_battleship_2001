@@ -75,4 +75,24 @@ class ClassTest < Minitest::Test
     assert_equal @cruiser, cell_2.ship
     assert_equal @cruiser, cell_3.ship
   end
+
+  def test_can_render_board
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+
+    rendered_board1 = "  1 2 3 4 \n"+
+                      "A . . . . \n"+
+                      "B . . . . \n"+
+                      "C . . . . \n"+
+                      "D . . . . \n"
+
+    assert_equal rendered_board1, @board.render
+
+    rendered_board2 = "  1 2 3 4 \n"+
+                      "A S S S . \n"+
+                      "B . . . . \n"+
+                      "C . . . . \n"+
+                      "D . . . . \n"
+
+    assert_equal rendered_board2, @board.render(true)
+  end
 end

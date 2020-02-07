@@ -3,9 +3,9 @@ class Board
 
   def initialize
     @cells = Hash.new
-    letters = "A".."D"
+    @letters = "A".."D"
 
-    letters.to_a.each do |letter|
+    @letters.to_a.each do |letter|
       4.times do |number|
         @cells.merge!("#{letter}#{number + 1}" => Cell.new("#{letter}#{number + 1}"))
       end
@@ -65,5 +65,25 @@ class Board
         @cells[coordinate].place_ship(ship)
       end
     end
+  end
+
+  def render(show_ships = false)
+    rendered_board =   "  1 2 3 4 \n"
+    @letters.to_a.each do |letter|
+      rendered_board << letter + " "
+      4.times do |number|
+        current_cell = @cells["#{letter}#{number + 1}"]
+        rendered_board << current_cell.render(show_ships) + " "
+      end
+      rendered_board << "\n"
+    end
+    rendered_board
+    #
+    # rendered_board =  "  1 2 3 4 \n"+
+    #                   "A S S S . \n"+
+    #                   "B . . . . \n"+
+    #                   "C . . . . \n"+
+    #                   "D . . . . \n"
+
   end
 end
