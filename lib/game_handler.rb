@@ -58,7 +58,7 @@ class GameHandler
       response = gets.chomp.downcase
 
       if response != "q" && response != "p"
-        puts "Please enter a valid response\n\n"
+        puts "Please enter a valid response.\n\n"
 
       elsif response == "q"
         quit = true
