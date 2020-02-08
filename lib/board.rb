@@ -1,3 +1,5 @@
+require "./lib/cell"
+
 class Board
   attr_reader :cells
 
@@ -23,6 +25,14 @@ class Board
     if ship_coordinates.any? { |coordinate| @cells[coordinate].ship != nil }
       false
     elsif ship.length == ship_coordinates.size
+      are_coordinates_valid = ship_coordinates.all? do |coordinate|
+        valid_coordinate?(coordinate)
+      end
+
+      if !are_coordinates_valid
+        return false
+      end
+
       is_consecutive_letters = true
       is_consecutive_numbers = true
 
@@ -90,5 +100,5 @@ class Board
   def fire_on_coordinate(target)
     @cells[target].fire_upon
   end
-  
+
 end
