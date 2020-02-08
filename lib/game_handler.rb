@@ -51,8 +51,22 @@ class GameHandler
         quit = true
 
       elsif response == "p"
+        play_a_game_round
+      end
+    end
+  end
 
-        puts "playing game\n\n"
+  def play_a_game_round
+    setup_game
+    debug_win_conditions
+
+    game_over = false
+    until game_over
+
+      puts "taking turn"
+
+      if @user_ships.all? {|ship| ship.sunk?}
+        game_over = true
       end
     end
   end
