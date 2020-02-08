@@ -71,12 +71,11 @@ class GameHandler
 
   def play_a_game_round
     setup_game
-    debug_win_conditions
 
     game_over = false
     until game_over
 
-      puts "taking turn"
+      take_turn
 
       if @computer_ships.all? {|ship| ship.sunk?}
         puts "You won!"
