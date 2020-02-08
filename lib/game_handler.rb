@@ -17,6 +17,19 @@ class GameHandler
   end
 
   def debug_win_conditions
+    @computer_ships = [
+      Ship.new("Cruiser", 3),
+      Ship.new("Submarine", 2)
+    ]
+
+    3.times do
+      @computer_ships[0].hit
+    end
+
+    2.times do
+      @computer_ships[1].hit
+    end
+
     @user_ships = [
       Ship.new("Cruiser", 3),
       Ship.new("Submarine", 2)
@@ -65,7 +78,13 @@ class GameHandler
 
       puts "taking turn"
 
+      if @computer_ships.all? {|ship| ship.sunk?}
+        puts "You won!"
+        game_over = true
+      end
+
       if @user_ships.all? {|ship| ship.sunk?}
+        puts "I won!"
         game_over = true
       end
     end
