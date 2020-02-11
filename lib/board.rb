@@ -22,16 +22,12 @@ class Board
   end
 
   def valid_placement?(ship, ship_coordinates)
-    if ship_coordinates.any? { |coordinate| @cells[coordinate].ship != nil }
+    if ship_coordinates.any? { |coordinate| !valid_coordinate?(coordinate) }
+      false
+    elsif ship_coordinates.any? { |coordinate| @cells[coordinate].ship != nil }
       false
     elsif ship.length == ship_coordinates.size
-      are_coordinates_valid = ship_coordinates.all? do |coordinate|
-        valid_coordinate?(coordinate)
-      end
 
-      if !are_coordinates_valid
-        return false
-      end
 
       is_consecutive_letters = true
       is_consecutive_numbers = true

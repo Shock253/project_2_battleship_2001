@@ -46,6 +46,9 @@ class ClassTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
     assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
 
+    assert_equal false, @board.valid_placement?(@cruiser, ["X1", "Y2"])
+    assert_equal false, @board.valid_placement?(@submarine, ["22", "33", "44"])
+
     assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
     assert_equal false, @board.valid_placement?(@submarine, ["A1", "C1"])
     assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
