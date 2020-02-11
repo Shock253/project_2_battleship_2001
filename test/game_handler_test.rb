@@ -1,4 +1,5 @@
 require "./lib/game_handler"
 
 game = GameHandler.new
-game.start_game
+game.computer_hide_ships
+puts game.computer_board.render(true)

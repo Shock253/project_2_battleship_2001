@@ -3,11 +3,7 @@ require "./lib/cell"
 require "./lib/board"
 
 class GameHandler
-  # because this is a class, you need a runner file (basically a limited test file)
-  # whose only function is to run the methods within the class
-
-  # we initialize with two Board instances, so we have to require Board
-  # we initialize with two empty arrays, which will be populated in the setup_game method
+  attr_reader :computer_board
 
   def initialize
     @computer_board = Board.new
@@ -18,7 +14,6 @@ class GameHandler
     @user_submarine = Ship.new("User Submarine", 2)
     @computer_ships = []
     @user_ships = []
-
   end
 
   def setup_game
@@ -39,29 +34,27 @@ class GameHandler
     puts place_submarine(@user_submarine, coordinates)
   end
 
-  def computer_place_ships
-    computer_place_cruiser(@computer_cruiser)
-    computer_place_submarine(@computer_submarine)
+  def computer_hide_ships
+    computer_place_ship(@computer_cruiser)
+    computer_place_ship(@computer_submarine)
   end
 
-  def computer_place_cruiser(computer_cruiser)
-    coordinates = ["A1", "A1", "A1"]
-    until coordinates.all? { |coordinate| @computer_board.valid_coordinate?(coordinate) && @computer_board.valid_placement?(computer_cruiser, coordinates) } do
+  def computer_place_ship(computer_ship)
+    coordinates = []
+    until @computer_board.valid_placement?(computer_ship, coordinates) do
       first_random_coordinate = @computer_board.cells.values.sample.coordinate
+      is_vertical = (Random.rand(2) == 1)
 
-      coordinates = [first_random_coordinate, "#{first_random_coordinate[0]}" ++ "#{first_random_coordinate[1].to_i + 1}", "#{first_random_coordinate[0]}" ++ "#{first_random_coordinate[1].to_i + 2}"]
+      coordinates = []
+      computer_ship.length.times do |ship_section|
+        if is_vertical
+          coordinates << "#{first_random_coordinate[0]}#{first_random_coordinate[1].to_i + ship_section}"
+        elsif !is_vertical
+          coordinates << "#{(first_random_coordinate[0].ord + ship_section).chr}#{first_random_coordinate[1]}"
+        end
+      end
     end
-    @computer_board.place(computer_cruiser, coordinates)
-  end
-
-  def computer_place_submarine(computer_submarine)
-    coordinates = ["A1", "A1", "A1"]
-    until coordinates.all? { |coordinate| @computer_board.valid_coordinate?(coordinate) && @computer_board.valid_placement?(computer_submarine, coordinates) } do
-      first_random_coordinate = @computer_board.cells.values.sample.coordinate
-      coordinates = [first_random_coordinate, "#{first_random_coordinate[0]}" ++ "#{first_random_coordinate[1].to_i + 1}"]
-    end
-    coordinates
-    # @computer_board.place(computer_submarine, coordinates)
+    @computer_board.place(computer_ship, coordinates)
   end
 
   def place_cruiser(user_cruiser, coordinates)
@@ -170,7 +163,6 @@ class GameHandler
     end
   end
 
-<<<<<<< HEAD
   def play_a_game_round
     setup_game
 
@@ -191,6 +183,4 @@ class GameHandler
     end
   end
 
-=======
->>>>>>> Add Setup methods
 end
