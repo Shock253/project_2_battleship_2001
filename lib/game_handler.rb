@@ -10,28 +10,34 @@ class GameHandler
     @user_board = Board.new
     @computer_cruiser = Ship.new("Computer Cruiser", 3)
     @computer_submarine = Ship.new("Computer Submarine", 2)
-    @user_cruiser = Ship.new("User Cruiser", 3)
-    @user_submarine = Ship.new("User Submarine", 2)
-    @computer_ships = []
-    @user_ships = []
+    @user_cruiser = Ship.new("Cruiser", 3)
+    @user_submarine = Ship.new("Submarine", 2)
+    @computer_ships = [@computer_cruiser, @computer_submarine]
+    @user_ships = [@user_cruiser, @user_submarine]
   end
 
   def setup_game
+    initialize
+    # @computer_board = Board.new
+    # @user_board = Board.new
+    # @computer_cruiser = Ship.new("Computer Cruiser", 3)
+    # @computer_submarine = Ship.new("Computer Submarine", 2)
+    # @user_cruiser = Ship.new("User Cruiser", 3)
+    # @user_submarine = Ship.new("User Submarine", 2)
+    # @computer_ships = [@computer_cruiser, @computer_submarine]
+    # @user_ships = [@user_cruiser, @user_submarine]
 
-    computer_place_ships
+    computer_hide_ships
 
-    puts """
-    I have laid out my ships on the grid.
-    You now need to lay out your two ships.
-    The Cruiser is three units long and the Submarine is two units long.
-    """
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+    puts "The Cruiser is three units long and the Submarine is two units long."
 
-    puts @user_board.render
+    user_place_ship(@user_ships[0])
+    user_place_ship(@user_ships[1])
 
-    coordinates = []
-
-    puts place_cruiser(@user_cruiser, coordinates)
-    puts place_submarine(@user_submarine, coordinates)
+    puts @user_board.render(true)
+    # have the user place their ships
   end
 
   def computer_hide_ships
@@ -57,57 +63,24 @@ class GameHandler
     @computer_board.place(computer_ship, coordinates)
   end
 
-  def place_cruiser(user_cruiser, coordinates)
-    puts "First, enter the squares one by one for the Cruiser (3 spaces) using this format LN (L = letter, N = number):"
+  def user_place_ship(user_ship)
+    puts @user_board.render(true)
 
-    puts "Enter first coordinate:"
-    first_cruiser_coordinate = gets.chomp
-    puts "Enter second coordinate:"
-    second_cruiser_coordinate = gets.chomp
-    puts "Enter third coordinate:"
-    third_cruiser_coordinate = gets.chomp
+    print "Enter the squares one by one for the #{user_ship.name} (#{user_ship.length} spaces) using this format LN (L = letter, N = number): \n> "
 
-    coordinates = [first_cruiser_coordinate, second_cruiser_coordinate, third_cruiser_coordinate]
+    user_placement_valid = false
 
-    until coordinates.all? { |coordinate| @user_board.valid_coordinate?(coordinate) && @user_board.valid_placement?(@user_cruiser, coordinates) } do
-      puts "Those are invalid coordinates. Please try again:"
-      puts "Enter first coordinate:"
-      first_cruiser_coordinate = gets.chomp
-      puts "Enter second coordinate:"
-      second_cruiser_coordinate = gets.chomp
-      puts "Enter third coordinate:"
-      third_cruiser_coordinate = gets.chomp
+    until user_placement_valid
+      user_coordinates = gets.chomp.split
 
-      coordinates = [first_cruiser_coordinate, second_cruiser_coordinate, third_cruiser_coordinate]
+      user_placement_valid = @user_board.valid_placement?(user_ship, user_coordinates)
+
+      if !user_placement_valid
+        print "Those are invalid coordinates. Please try again: \n> "
+      end
     end
 
-    @user_board.place(user_cruiser, coordinates)
-    @user_board.render(user_cruiser)
-  end
-
-  def place_submarine(user_submarine, coordinates)
-    puts "First, enter the squares one by one for the Submarine (2 spaces) using this format LN (L = letter, N = number):"
-
-    puts "Enter first coordinate:"
-    first_submarine_coordinate = gets.chomp
-    puts "Enter second coordinate:"
-    second_submarine_coordinate = gets.chomp
-
-    coordinates = [first_submarine_coordinate, second_submarine_coordinate]
-
-    until coordinates.all? { |coordinate| @user_board.valid_coordinate?(coordinate) && @user_board.valid_placement?(@user_submarine, coordinates) } do
-      puts "Those are invalid coordinates. Please try again:"
-      puts "Enter first coordinate:"
-      first_submarine_coordinate = gets.chomp
-      puts "Enter second coordinate:"
-      second_submarine_coordinate = gets.chomp
-
-      coordinates = [first_submarine_coordinate, second_submarine_coordinate]
-    end
-
-    @user_board.place(user_submarine, coordinates)
-    @user_board.render(user_submarine)
-
+    @user_board.place(user_ship, user_coordinates)
   end
 
   def debug_win_conditions
