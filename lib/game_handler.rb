@@ -119,9 +119,25 @@ class GameHandler
   end
 
   def player_turn
-    "Enter the coordinate for your shot:\n> " +
-    "Please enter a valid coordinate:\n> " +
-    "Please enter a valid coordinate:\n> "
+    print "Enter the coordinate for your shot:\n> "
+
+    input_validated = false
+    user_chosen_coord = " "
+
+    until input_validated
+      user_chosen_coord = gets.chomp
+
+      if !@computer_board.valid_coordinate?(user_chosen_coord)
+        print "Please enter a valid coordinate:\n> "
+      elsif @computer_board.cells[user_chosen_coord].fired_upon?
+        print "This coordinate has already been fired upon, enter a new coordinate:\n> "
+      end
+
+      if @computer_board.valid_coordinate?(user_chosen_coord) && !@computer_board.cells[user_chosen_coord].fired_upon?
+        input_validated = true
+      end
+    end
+    @computer_board.fire_on_coordinate(user_chosen_coord)
   end
 
   def take_turn
