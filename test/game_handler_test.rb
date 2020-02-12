@@ -123,7 +123,8 @@ class GameHandlerTest < Minitest::Test
         @game.player_turn
       end
     end
-  end
 
+    assert_equal true, @game.computer_board.cells["A4"].fired_upon?
+  end
 
 end
