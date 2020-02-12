@@ -109,25 +109,52 @@ class GameHandlerTest < Minitest::Test
 
     @game.computer_board.fire_on_coordinate("C2")
 
-    sample_input = ["E1", "D5", "C2", "A4"]
+    sample_input = ["E1", "D5", "C2", "A3"]
 
-    expected_output = "Enter the coordinate for your shot:\n> " +
+    expected_output1 = "Enter the coordinate for your shot:\n> " +
                       # User inputs stupid coord
                       "Please enter a valid coordinate:\n> " +
                       # User continues to baffle society
                       "Please enter a valid coordinate:\n> " +
                       # User manages to press the right keys on their keyboard
                       # yet still struggles with short term memory loss
-                      "This coordinate has already been fired upon, enter a new coordinate:\n> "
+                      "This coordinate has already been fired upon, enter a new coordinate:\n> " +
                       # User finally pools their 3 brain cells together and enters a valid coord
+                      "Your shot on A3 was a hit.\n"
 
-    assert_output expected_output do
+    assert_output expected_output1 do
       simulate_standard_input sample_input do
         @game.player_turn
       end
     end
 
-    assert_equal true, @game.computer_board.cells["A4"].fired_upon?
+    assert_equal true, @game.computer_board.cells["A3"].fired_upon?
+
+
+
+    # hit
+    expected_output1 = "Enter the coordinate for your shot:\n> " +
+                        "Your shot on A2 was a hit.\n"
+
+    sample_input2 = ["A2"]
+    assert_output expected_output2 do
+      simulate_standard_input sample_input2 do
+        @game.player_turn
+      end
+    end
+
+    # # miss
+    # sample_input3 = ["B1"]
+    # simulate_standard_input sample_input3 do
+    #   @game.player_turn
+    # end
+    #
+    # # sink
+    # sample_input4 = ["A1"]
+    # simulate_standard_input sample_input4 do
+    #   @game.player_turn
+    # end
+
   end
 
   def test_computer_can_take_turn
