@@ -5,7 +5,7 @@ require "./lib/ship"
 
 class GameHandlerTest < Minitest::Test
 
-  def simulate_stndard_input(*inputs, &block)
+  def simulate_standard_input(*inputs, &block)
     io = StringIO.new
     inputs.flatten.each { |str| io.puts(str) }
     io.rewind
@@ -91,6 +91,39 @@ class GameHandlerTest < Minitest::Test
     end
   end
 
+  def test_player_can_shoot
+    skip
+    # this tests the @game.player_turn method (which needs to be created)
+
+    computer_cruiser = Ship.new("Computer Cruiser", 3)
+    computer_submarine = Ship.new("Computer Submarine", 2)
+    user_cruiser = Ship.new("Cruiser", 3)
+    user_submarine = Ship.new("Submarine", 2)
+    computer_ships = [computer_cruiser, computer_submarine]
+    user_ships = [user_cruiser, user_submarine]
+
+    @game.computer_board.place(computer_ships[0], ["A1", "A2", "A3"])
+    @game.computer_board.place(computer_ships[1], ["C4", "D4"])
+
+    @game.user_board.place(user_ships[0], ["A1", "B1", "C1"])
+    @game.user_board.place(user_ships[1], ["C3", "C4"])
+
+    sample_input = ["E1", "D5", "A4"]
+
+    expected_output = "Enter the coordinate for your shot:\n> " +
+                      # User inputs stupid coord
+                      "Please enter a valid coordinate:\n> " +
+                      # User continues to baffle society
+                      "Please enter a valid coordinate:\n> "
+                      # User manages to press the right keys on their keyboard
+
+
+    assert_output expected_output do
+      simulate_standard_input sample_input do
+        @game.player_turn
+      end
+    end
+  end
 
 
 end
