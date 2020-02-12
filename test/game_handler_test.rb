@@ -46,8 +46,8 @@ class GameHandlerTest < Minitest::Test
 
 
 
-    computer_cruiser = Ship.new("Computer Cruiser", 3)
-    computer_submarine = Ship.new("Computer Submarine", 2)
+    computer_cruiser = Ship.new("Cruiser", 3)
+    computer_submarine = Ship.new("Submarine", 2)
     user_cruiser = Ship.new("Cruiser", 3)
     user_submarine = Ship.new("Submarine", 2)
     computer_ships = [computer_cruiser, computer_submarine]
@@ -94,8 +94,8 @@ class GameHandlerTest < Minitest::Test
     # skip
     # this tests the @game.player_turn method (which needs to be created)
 
-    computer_cruiser = Ship.new("Computer Cruiser", 3)
-    computer_submarine = Ship.new("Computer Submarine", 2)
+    computer_cruiser = Ship.new("Cruiser", 3)
+    computer_submarine = Ship.new("Submarine", 2)
     user_cruiser = Ship.new("Cruiser", 3)
     user_submarine = Ship.new("Submarine", 2)
     computer_ships = [computer_cruiser, computer_submarine]
@@ -133,7 +133,7 @@ class GameHandlerTest < Minitest::Test
 
 
     # hit
-    expected_output1 = "Enter the coordinate for your shot:\n> " +
+    expected_output2 = "Enter the coordinate for your shot:\n> " +
                         "Your shot on A2 was a hit.\n"
 
     sample_input2 = ["A2"]
@@ -143,24 +143,33 @@ class GameHandlerTest < Minitest::Test
       end
     end
 
-    # # miss
-    # sample_input3 = ["B1"]
-    # simulate_standard_input sample_input3 do
-    #   @game.player_turn
-    # end
-    #
-    # # sink
-    # sample_input4 = ["A1"]
-    # simulate_standard_input sample_input4 do
-    #   @game.player_turn
-    # end
+    # miss
+    expected_output3 = "Enter the coordinate for your shot:\n> " +
+                        "Your shot on B1 was a miss.\n"
+
+    sample_input3 = ["B1"]
+    assert_output expected_output3 do
+      simulate_standard_input sample_input3 do
+        @game.player_turn
+      end
+    end
+
+    # sink
+    expected_output4 = "Enter the coordinate for your shot:\n> " +
+                        "Your shot on A1 sunk my Cruiser.\n"
+    sample_input4 = ["A1"]
+    assert_output expected_output4 do
+      simulate_standard_input sample_input4 do
+        @game.player_turn
+      end
+    end
 
   end
 
   def test_computer_can_take_turn
 
-    computer_cruiser = Ship.new("Computer Cruiser", 3)
-    computer_submarine = Ship.new("Computer Submarine", 2)
+    computer_cruiser = Ship.new("Cruiser", 3)
+    computer_submarine = Ship.new("Submarine", 2)
     user_cruiser = Ship.new("Cruiser", 3)
     user_submarine = Ship.new("Submarine", 2)
     computer_ships = [computer_cruiser, computer_submarine]
@@ -176,11 +185,43 @@ class GameHandlerTest < Minitest::Test
 
     pseudo_rand_values = [2, 3, 0, 1]
     Random.stub(:rand, proc { pseudo_rand_values.shift } ) do
-      @game.computer_turn
+      capture_io do
+        @game.computer_turn
+      end
     end
 
     assert_equal true, @game.user_board.cells["A1"].fired_upon?
 
-  end
 
+
+    # hit
+    expected_output2 = "My shot on B1 was a hit.\n"
+
+    sample_input2 = [1, 1]
+    assert_output expected_output2 do
+      Random.stub(:rand, proc { sample_input2.shift } ) do
+        @game.computer_turn
+      end
+    end
+
+    # miss
+    expected_output3 = "My shot on D3 was a miss.\n"
+
+    sample_input3 = [3, 3]
+    assert_output expected_output3 do
+      Random.stub(:rand, proc { sample_input3.shift } ) do
+        @game.computer_turn
+      end
+    end
+
+    # sunk
+    expected_output4 = "My shot on C1 sunk your Cruiser.\n"
+
+    sample_input4 = [2, 1]
+    assert_output expected_output4 do
+      Random.stub(:rand, proc { sample_input4.shift } ) do
+        @game.computer_turn
+      end
+    end
+  end
 end

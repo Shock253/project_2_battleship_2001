@@ -8,8 +8,8 @@ class GameHandler
   def initialize
     @computer_board = Board.new
     @user_board = Board.new
-    @computer_cruiser = Ship.new("Computer Cruiser", 3)
-    @computer_submarine = Ship.new("Computer Submarine", 2)
+    @computer_cruiser = Ship.new("Cruiser", 3)
+    @computer_submarine = Ship.new("Submarine", 2)
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_submarine = Ship.new("Submarine", 2)
     @computer_ships = [@computer_cruiser, @computer_submarine]
@@ -19,8 +19,8 @@ class GameHandler
   def setup_game
     @computer_board = Board.new
     @user_board = Board.new
-    @computer_cruiser = Ship.new("Computer Cruiser", 3)
-    @computer_submarine = Ship.new("Computer Submarine", 2)
+    @computer_cruiser = Ship.new("Cruiser", 3)
+    @computer_submarine = Ship.new("Submarine", 2)
     @user_cruiser = Ship.new("User Cruiser", 3)
     @user_submarine = Ship.new("User Submarine", 2)
     @computer_ships = [@computer_cruiser, @computer_submarine]
@@ -138,6 +138,15 @@ class GameHandler
       end
     end
     @computer_board.fire_on_coordinate(user_chosen_coord)
+
+    shot_status = @computer_board.cells[user_chosen_coord].render
+    if shot_status == "H"
+      puts "Your shot on #{user_chosen_coord} was a hit."
+    elsif shot_status == "M"
+      puts "Your shot on #{user_chosen_coord} was a miss."
+    elsif shot_status == "X"
+      puts "Your shot on #{user_chosen_coord} sunk my #{@computer_board.cells[user_chosen_coord].ship.name}."
+    end
   end
 
   def computer_turn
@@ -156,9 +165,18 @@ class GameHandler
     end
 
     @user_board.fire_on_coordinate(computer_shot)
+
+    shot_status = @user_board.cells[computer_shot].render
+    if shot_status == "H"
+      puts "My shot on #{computer_shot} was a hit."
+    elsif shot_status == "M"
+      puts "My shot on #{computer_shot} was a miss."
+    elsif shot_status == "X"
+      puts "My shot on #{computer_shot} sunk your #{@user_board.cells[computer_shot].ship.name}."
+    end
   end
 
-  
+
 
   def take_turn
 
