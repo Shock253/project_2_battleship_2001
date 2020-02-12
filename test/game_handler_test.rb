@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require "minitest/pride"
+require "mocha/minitest"
 require "./lib/game_handler"
 require "./lib/ship"
 
@@ -127,6 +128,32 @@ class GameHandlerTest < Minitest::Test
     end
 
     assert_equal true, @game.computer_board.cells["A4"].fired_upon?
+  end
+
+  def test_computer_can_take_turn
+
+    computer_cruiser = Ship.new("Computer Cruiser", 3)
+    computer_submarine = Ship.new("Computer Submarine", 2)
+    user_cruiser = Ship.new("Cruiser", 3)
+    user_submarine = Ship.new("Submarine", 2)
+    computer_ships = [computer_cruiser, computer_submarine]
+    user_ships = [user_cruiser, user_submarine]
+
+    @game.computer_board.place(computer_ships[0], ["A1", "A2", "A3"])
+    @game.computer_board.place(computer_ships[1], ["C4", "D4"])
+
+    @game.user_board.place(user_ships[0], ["A1", "B1", "C1"])
+    @game.user_board.place(user_ships[1], ["C3", "C4"])
+
+    @game.user_board.fire_on_coordinate("C3")
+
+    pseudo_rand_values = [2, 3, 0, 1]
+    Random.stub(:rand, proc { pseudo_rand_values.shift } ) do
+      @game.computer_turn
+    end
+
+    assert_equal true, @game.user_board.cells["A1"].fired_upon?
+
   end
 
 end

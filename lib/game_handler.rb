@@ -140,6 +140,26 @@ class GameHandler
     @computer_board.fire_on_coordinate(user_chosen_coord)
   end
 
+  def computer_turn
+    valid_shot = false
+    computer_shot = ""
+    until valid_shot
+      random_letter = ("A".ord + Random.rand(0..3)).chr
+      random_number = Random.rand(1..4)
+      computer_shot = "#{random_letter}#{random_number}"
+
+      is_valid_coord = @user_board.valid_coordinate?(computer_shot)
+      is_coord_already_fired_upon = @user_board.cells[computer_shot].fired_upon?
+      if is_valid_coord && !is_coord_already_fired_upon
+        valid_shot = true
+      end
+    end
+
+    @user_board.fire_on_coordinate(computer_shot)
+  end
+
+  
+
   def take_turn
 
   end
