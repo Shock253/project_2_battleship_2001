@@ -26,20 +26,18 @@ class GameHandlerTest < Minitest::Test
   end
 
   def test_turn_can_display_board
-    skip
-
     expected_fresh_boards = "=============COMPUTER BOARD=============\n" +
-                            "  1 2 3 4\n" +
-                            "A . . . .\n" +
-                            "B . . . .\n" +
-                            "C . . . .\n" +
-                            "D . . . .\n" +
+                            "  1 2 3 4 \n" +
+                            "A . . . . \n" +
+                            "B . . . . \n" +
+                            "C . . . . \n" +
+                            "D . . . . \n" +
                             "==============PLAYER BOARD==============\n" +
-                            "  1 2 3 4\n" +
-                            "A . . . .\n" +
-                            "B . . . .\n" +
-                            "C . . . .\n" +
-                            "D . . . .\n"
+                            "  1 2 3 4 \n" +
+                            "A . . . . \n" +
+                            "B . . . . \n" +
+                            "C . . . . \n" +
+                            "D . . . . \n"
 
     assert_output expected_fresh_boards do
         @game.display_boards_in_turn
@@ -72,17 +70,17 @@ class GameHandlerTest < Minitest::Test
 
 
     expected_mid_game_board = "=============COMPUTER BOARD=============\n" +
-                              "  1 2 3 4\n" +
-                              "A X X X .\n" +
-                              "B . . . .\n" +
-                              "C . M . .\n" +
-                              "D . . . .\n" +
+                              "  1 2 3 4 \n" +
+                              "A X X X . \n" +
+                              "B . . . . \n" +
+                              "C . M . . \n" +
+                              "D . . . . \n" +
                               "==============PLAYER BOARD==============\n" +
-                              "  1 2 3 4\n" +
-                              "A S . M .\n" +
-                              "B S M M .\n" +
-                              "C H . S S\n" +
-                              "D . . . .\n"
+                              "  1 2 3 4 \n" +
+                              "A S . M . \n" +
+                              "B S M M . \n" +
+                              "C H . S S \n" +
+                              "D . . . . \n"
 
 
 
@@ -92,7 +90,7 @@ class GameHandlerTest < Minitest::Test
   end
 
   def test_player_can_shoot
-    skip
+    # skip
     # this tests the @game.player_turn method (which needs to be created)
 
     computer_cruiser = Ship.new("Computer Cruiser", 3)

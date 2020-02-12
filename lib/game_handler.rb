@@ -3,7 +3,7 @@ require "./lib/cell"
 require "./lib/board"
 
 class GameHandler
-  attr_reader :computer_board
+  attr_reader :computer_board, :user_board
 
   def initialize
     @computer_board = Board.new
@@ -17,15 +17,14 @@ class GameHandler
   end
 
   def setup_game
-    initialize
-    # @computer_board = Board.new
-    # @user_board = Board.new
-    # @computer_cruiser = Ship.new("Computer Cruiser", 3)
-    # @computer_submarine = Ship.new("Computer Submarine", 2)
-    # @user_cruiser = Ship.new("User Cruiser", 3)
-    # @user_submarine = Ship.new("User Submarine", 2)
-    # @computer_ships = [@computer_cruiser, @computer_submarine]
-    # @user_ships = [@user_cruiser, @user_submarine]
+    @computer_board = Board.new
+    @user_board = Board.new
+    @computer_cruiser = Ship.new("Computer Cruiser", 3)
+    @computer_submarine = Ship.new("Computer Submarine", 2)
+    @user_cruiser = Ship.new("User Cruiser", 3)
+    @user_submarine = Ship.new("User Submarine", 2)
+    @computer_ships = [@computer_cruiser, @computer_submarine]
+    @user_ships = [@user_cruiser, @user_submarine]
 
     computer_hide_ships
 
@@ -110,6 +109,19 @@ class GameHandler
       @user_ships[1].hit
     end
 
+  end
+
+  def display_boards_in_turn
+    puts "COMPUTER BOARD".center(40, "=")
+    puts @computer_board.render
+    puts "PLAYER BOARD".center(40, "=")
+    puts @user_board.render(true)
+  end
+
+  def player_turn
+    "Enter the coordinate for your shot:\n> " +
+    "Please enter a valid coordinate:\n> " +
+    "Please enter a valid coordinate:\n> "
   end
 
   def take_turn
