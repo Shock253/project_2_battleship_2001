@@ -1,4 +1,96 @@
+require "minitest/autorun"
+require "minitest/pride"
 require "./lib/game_handler"
+require "./lib/ship"
 
-game = GameHandler.new
-game.setup_game
+class GameHandlerTest < Minitest::Test
+
+  def simulate_stndard_input(*inputs, &block)
+    io = StringIO.new
+    inputs.flatten.each { |str| io.puts(str) }
+    io.rewind
+
+    actual_stdin, $stdin = $stdin, io
+    yield
+  ensure
+    $stdin = actual_stdin
+  end
+
+  def setup
+    @game = GameHandler.new
+  end
+
+  def test_can_access_boards
+    assert_instance_of Board, @game.computer_board
+    assert_instance_of Board, @game.user_board
+  end
+
+  def test_turn_can_display_board
+    skip
+
+    expected_fresh_boards = "=============COMPUTER BOARD=============\n" +
+                            "  1 2 3 4\n" +
+                            "A . . . .\n" +
+                            "B . . . .\n" +
+                            "C . . . .\n" +
+                            "D . . . .\n" +
+                            "==============PLAYER BOARD==============\n" +
+                            "  1 2 3 4\n" +
+                            "A . . . .\n" +
+                            "B . . . .\n" +
+                            "C . . . .\n" +
+                            "D . . . .\n"
+
+    assert_output expected_fresh_boards do
+        @game.display_boards_in_turn
+    end
+
+
+
+    computer_cruiser = Ship.new("Computer Cruiser", 3)
+    computer_submarine = Ship.new("Computer Submarine", 2)
+    user_cruiser = Ship.new("Cruiser", 3)
+    user_submarine = Ship.new("Submarine", 2)
+    computer_ships = [computer_cruiser, computer_submarine]
+    user_ships = [user_cruiser, user_submarine]
+
+    @game.computer_board.place(computer_ships[0], ["A1", "A2", "A3"])
+    @game.computer_board.place(computer_ships[1], ["C4", "D4"])
+
+    @game.user_board.place(user_ships[0], ["A1", "B1", "C1"])
+    @game.user_board.place(user_ships[1], ["C3", "C4"])
+
+    @game.user_board.fire_on_coordinate("C1")
+    @game.user_board.fire_on_coordinate("B2")
+    @game.user_board.fire_on_coordinate("B3")
+    @game.user_board.fire_on_coordinate("A3")
+
+    @game.computer_board.fire_on_coordinate("A1")
+    @game.computer_board.fire_on_coordinate("A2")
+    @game.computer_board.fire_on_coordinate("A3")
+    @game.computer_board.fire_on_coordinate("C2")
+
+
+    expected_mid_game_board = "=============COMPUTER BOARD=============\n" +
+                              "  1 2 3 4\n" +
+                              "A X X X .\n" +
+                              "B . . . .\n" +
+                              "C . M . .\n" +
+                              "D . . . .\n" +
+                              "==============PLAYER BOARD==============\n" +
+                              "  1 2 3 4\n" +
+                              "A S . M .\n" +
+                              "B S M M .\n" +
+                              "C H . S S\n" +
+                              "D . . . .\n"
+
+
+
+    assert_output expected_mid_game_board do
+      @game.display_boards_in_turn
+    end
+  end
+
+
+
+end
