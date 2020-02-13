@@ -1,5 +1,4 @@
-require "minitest/autorun"
-require "minitest/pride"
+require './test/test_helper.rb'
 require "mocha/minitest"
 require "./lib/game_handler"
 require "./lib/ship"
@@ -19,6 +18,19 @@ class GameHandlerTest < Minitest::Test
 
   def setup
     @game = GameHandler.new
+  end
+
+  def test_computer_place_ship
+    computer_ship = Ship.new("Cruiser", 3)
+    cell = mock("A1")
+    cell.stubs(:coordinate).returns("A1")
+    @game.computer_board.stubs(:cells).returns({"A1" => cell})
+    Random.stub(:rand, 2) do
+      @game.computer_place_ship(computer_ship)
+    end
+    assert_equal computer_ship, @game.computer_board.cells["A1"].ship
+    assert_equal computer_ship, @game.computer_board.cells["A2"].ship
+    assert_equal computer_ship, @game.computer_board.cells["A3"].ship
   end
 
   def test_can_access_boards
@@ -43,8 +55,6 @@ class GameHandlerTest < Minitest::Test
     assert_output expected_fresh_boards do
         @game.display_boards_in_turn
     end
-
-
 
     computer_cruiser = Ship.new("Cruiser", 3)
     computer_submarine = Ship.new("Submarine", 2)
