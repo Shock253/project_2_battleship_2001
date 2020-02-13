@@ -10,7 +10,6 @@ class CellTest < Minitest::Test
     @cell_2 = Cell.new("C3")
 
     @cruiser = Ship.new("Cruiser", 3)
-
   end
 
   def test_it_exists
@@ -49,7 +48,6 @@ class CellTest < Minitest::Test
   end
 
   def test_can_render
-
     @cell_2.place_ship(@cruiser)
 
     assert_equal ".", @cell_1.render
