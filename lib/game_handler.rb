@@ -36,7 +36,6 @@ class GameHandler
     user_place_ship(@user_ships[1])
 
     puts @user_board.render(true)
-    # have the user place their ships
   end
 
   def computer_hide_ships
@@ -176,10 +175,9 @@ class GameHandler
     end
   end
 
-
-
   def take_turn
-
+    player_turn
+    computer_turn
   end
 
   def start_game

@@ -91,9 +91,6 @@ class GameHandlerTest < Minitest::Test
   end
 
   def test_player_can_shoot
-    # skip
-    # this tests the @game.player_turn method (which needs to be created)
-
     computer_cruiser = Ship.new("Cruiser", 3)
     computer_submarine = Ship.new("Submarine", 2)
     user_cruiser = Ship.new("Cruiser", 3)
@@ -112,14 +109,9 @@ class GameHandlerTest < Minitest::Test
     sample_input = ["E1", "D5", "C2", "A3"]
 
     expected_output1 = "Enter the coordinate for your shot:\n> " +
-                      # User inputs stupid coord
                       "Please enter a valid coordinate:\n> " +
-                      # User continues to baffle society
                       "Please enter a valid coordinate:\n> " +
-                      # User manages to press the right keys on their keyboard
-                      # yet still struggles with short term memory loss
                       "This coordinate has already been fired upon, enter a new coordinate:\n> " +
-                      # User finally pools their 3 brain cells together and enters a valid coord
                       "Your shot on A3 was a hit.\n"
 
     assert_output expected_output1 do
@@ -129,8 +121,6 @@ class GameHandlerTest < Minitest::Test
     end
 
     assert_equal true, @game.computer_board.cells["A3"].fired_upon?
-
-
 
     # hit
     expected_output2 = "Enter the coordinate for your shot:\n> " +
@@ -192,8 +182,6 @@ class GameHandlerTest < Minitest::Test
 
     assert_equal true, @game.user_board.cells["A1"].fired_upon?
 
-
-
     # hit
     expected_output2 = "My shot on B1 was a hit.\n"
 
@@ -223,5 +211,20 @@ class GameHandlerTest < Minitest::Test
         @game.computer_turn
       end
     end
+  end
+
+  def test_take_turn
+    computer_choices = [0, 1]
+    player_input = ["B1"]
+
+    Random.stub(:rand, proc { computer_choices.shift } ) do
+      simulate_standard_input(player_input) do
+        capture_io do
+          @game.take_turn
+        end
+      end
+    end
+    assert_equal true, @game.user_board.cells["A1"].fired_upon?
+    assert_equal true, @game.computer_board.cells["B1"].fired_upon?
   end
 end
