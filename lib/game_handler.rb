@@ -176,6 +176,7 @@ class GameHandler
   end
 
   def take_turn
+    display_boards_in_turn
     player_turn
     computer_turn
   end
