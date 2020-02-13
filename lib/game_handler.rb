@@ -21,8 +21,8 @@ class GameHandler
     @user_board = Board.new
     @computer_cruiser = Ship.new("Cruiser", 3)
     @computer_submarine = Ship.new("Submarine", 2)
-    @user_cruiser = Ship.new("User Cruiser", 3)
-    @user_submarine = Ship.new("User Submarine", 2)
+    @user_cruiser = Ship.new("Cruiser", 3)
+    @user_submarine = Ship.new("Submarine", 2)
     @computer_ships = [@computer_cruiser, @computer_submarine]
     @user_ships = [@user_cruiser, @user_submarine]
 
