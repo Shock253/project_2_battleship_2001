@@ -81,35 +81,6 @@ class GameHandler
     @user_board.place(user_ship, user_coordinates)
   end
 
-  def debug_win_conditions
-    @computer_ships = [
-      Ship.new("Cruiser", 3),
-      Ship.new("Submarine", 2)
-    ]
-
-    3.times do
-      @computer_ships[0].hit
-    end
-
-    2.times do
-      @computer_ships[1].hit
-    end
-
-    @user_ships = [
-      Ship.new("Cruiser", 3),
-      Ship.new("Submarine", 2)
-    ]
-
-    3.times do
-      @user_ships[0].hit
-    end
-
-    2.times do
-      @user_ships[1].hit
-    end
-
-  end
-
   def display_boards_in_turn
     puts "COMPUTER BOARD".center(40, "=")
     puts @computer_board.render
@@ -220,5 +191,4 @@ class GameHandler
       end
     end
   end
-
 end
